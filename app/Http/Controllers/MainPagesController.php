@@ -14,8 +14,6 @@ class MainPagesController extends Controller
     public function index(Request $request){
         $urlpath = $request->path();
 
-
-
         $data['page'] = Page::where('slug', $urlpath)->where('status', 1)->first();
         if($urlpath == 'team'){
             $model =  new Team();
@@ -34,7 +32,7 @@ class MainPagesController extends Controller
     }
 
     public function contactSubmit(Request $request){
-        
+
         $validated = $request->validate([
             'name' => 'required',
             'email'     => 'required|email',
@@ -42,9 +40,9 @@ class MainPagesController extends Controller
             'message'   => 'required'
         ]);
 
-        $to = 'earthweb21st@gmail.com'; 
-        $subject = $request->name. ' contact mail'; 
-        $message = $request->message; 
+        $to = 'earthweb21st@gmail.com';
+        $subject = $request->name. ' contact mail';
+        $message = $request->message;
         $headers = 'From: ' . $request->email . "\r\n" . 'Reply-To: ' . $request->email . "\r\n" .  'X-Mailer: PHP/' . phpversion();
         $send = mail($to, $subject, $message, $headers);
         if($send){
@@ -56,14 +54,11 @@ class MainPagesController extends Controller
         }
     }
 
-    public function toMail($notifiable)
-    {
-        $url = url('/invoice/2');
-    
-        return (new MailMessage)
-                    ->greeting('Hello!')
-                    ->line('One of your invoices has been paid!')
-                    ->action('View Invoice', $url)
-                    ->line('Thank you for using our application!');
+    public function notfound(Request $request){
+        $urlpath = $request->path();
+
+        //dd($urlpath);
+        $data['url'] = $urlpath;
+        return view('frontend.notfound', $data);
     }
 }

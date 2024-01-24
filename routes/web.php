@@ -59,3 +59,5 @@ Route::prefix('backend')->middleware('admin_auth')->group(function () {
 
     Route::get('logout', [ProfileController::class, 'logout'])->name('backend.logout');
 });
+
+Route::fallback([MainPagesController::class, 'notfound'])->name('frontend.notfound');
